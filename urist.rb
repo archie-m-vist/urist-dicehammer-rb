@@ -4,20 +4,20 @@ load 'token.rb'
 
 bot = Discordrb::Commands::CommandBot.new token: loginToken(), application_id: appID(), prefix: '!'
 
-name = "Urist Dicehammer"
-
 # defines urist's ebin maymays
 #load "memes.rb"
 #engage_memes(bot)
 
 serverFlags = {}
 
+load 'flags.rb'
+load 'memes.rb'
+
 # run on bot startup
 bot.ready do |event|
+   initFlags(bot, serverFlags)
+   initMemes(bot, serverFlags)
    puts "Ready!"
-   bot.servers.keys.each do |server|
-      serverFlags[server] = { "memes" => false }
-   end
 end
 
 bot.message(with_text: 'Check Urist') do |event|
@@ -64,49 +64,6 @@ bot.command :coinflip do |event, *args|
       totals += ":** "
    end
    totals + output
-end
-
-bot.command :toggle do |event, setting, svalue|
-   if svalue.casecmp("yes") == 0 || svalue.casecmp("on") == 0 || svalue.casecmp("true") == 0
-      value = true
-   elsif svalue.casecmp("no") == 0 || svalue.casecmp("off") == 0 || svalue.casecmp("false") == 0
-      value = false
-   else
-      return "Error: expected 'on' or 'off' for !toggle"
-   end
-   
-   if setting.casecmp("memes") == 0
-      serverFlags[event.server.id]["memes"] = value
-      if ( value )
-         "JUST MEME MY URIST UP"
-      else
-         "This is a sober, serious bot."
-      end
-   end
-end
-
-bot.message(contains: 'plump helm') do |event|
-   if serverFlags[event.server.id]["memes"]
-      event.respond 'OM NOM NOM BRING MORE WINE'
-   end
-end
-
-bot.message(contains: 'miasma') do |event|
-   if serverFlags[event.server.id]["memes"]
-      event.respond "_"+name+" was disgusted by miasma recently._"
-   end
-end
-
-bot.message(contains: 'carp') do |event|
-   if serverFlags[event.server.id]["memes"]
-      event.respond "_"+name+" has witnessed death._"
-   end
-end
-
-bot.message(contains: 'race condition') do |event|
-   if serverFlags[event.server.id]["memes"]
-      event.respond "Zero point. See you next semester!"
-   end
 end
 
 bot.command :roll do |event, dstring, *args|
@@ -189,7 +146,16 @@ bot.command :roll do |event, dstring, *args|
       end
       resultString = parseResultString(resultArray)
       total += bonus
-      output += "**" + total.to_s + "** {" + resultString + "}"
+      output += "**" + total.to_s
+      # check 'em
+      if parsedArgs.key?('dubs') || serverFlags[event.server.id]["memes"]
+         if total % 100 == 77
+            output += " Checked; Nana wills it. "
+         elsif (total % 100) % 11 == 0
+            output += " Checked. "
+         end
+      end
+      output += "** {" + resultString + "}"
       if ( count > 1 )
          output += ", "
       end

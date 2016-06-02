@@ -23,8 +23,8 @@ def parseRollArgs (args, event)
          else
             event.respond "Error: unexpected argument after 'drop'. Expected integer and lowest/highest."
          end
-      else
-         event.respond "Error: unknown argument "+arg
+      elsif ( arg.casecmp("dubs") == 0 )
+         parsedArgs['dubs'] = true
       end
       index += 1
    end
