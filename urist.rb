@@ -1,7 +1,8 @@
 require 'discordrb'
 load 'parser.rb'
+load 'token.rb'
 
-bot = Discordrb::Commands::CommandBot.new token: [token here], application_id: [appid here], prefix: '!'
+bot = Discordrb::Commands::CommandBot.new token: loginToken(), application_id: appID(), prefix: '!'
 
 name = "Urist Dicehammer"
 
