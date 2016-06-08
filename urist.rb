@@ -24,6 +24,25 @@ bot.message(with_text: 'Check Urist') do |event|
    event.respond "Ready!"
 end
 
+bot.command :emote do |event, name, *args|
+   if ( name == "help" )
+      event.respond "Suppoted commands:"
+      event.respond "!emote glassesadjust"
+      return
+   end
+
+   dir = "./pictures/"+name.to_s+"/"
+   count = Dir[dir+"*"].length
+   if ( count == 0 )
+      return "Error: Unsupported emote."
+   end
+   fname = dir + (rand(count)+1).to_s + ".gif"
+   puts fname
+   ifile = File.new(fname,"r")
+   event.channel.send_file(ifile)
+   nil
+end
+
 bot.command :coinflip do |event, *args|
    number = 1
    if ( args.length > 0 )
