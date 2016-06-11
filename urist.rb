@@ -114,7 +114,7 @@ bot.command :roll do |event, dstring, *args|
    # regular expressions to parse dstring
    dice = /(?<number>[0-9]+)d(?<faces>[0-9]+)/
    dcount = /(?<count>[0-9]+)#/
-   dbonus = /d[0-9]+(?<sign>[\+\-])(?<bonus>[0-9]+)/
+   dbonus = /d[0-9]+(?<sign>[\+\-\*\/])(?<bonus>[0-9]+)/
    
    # get dice data
    mdata = dice.match(dstring)
@@ -144,6 +144,8 @@ bot.command :roll do |event, dstring, *args|
       sign = $~['sign']
       if sign == "-"
          bonus = bonus * -1
+      elif sign == "/"
+         bonus = 1/bonus
       end
       output += " with modifier "+sign+$~['bonus']
    end
@@ -178,8 +180,14 @@ bot.command :roll do |event, dstring, *args|
          end
          resultArray << dropped
       end
+      # set up the result string
       resultString = parseResultString(resultArray)
-      total += bonus
+      # apply bonus
+      if sign == "+" or sign == "-"
+         total += bonus
+      elif sign == "*" or sign == "/"
+         total *= bonus
+      end
       output += "**" + total.to_s
       # check 'em
       if parsedArgs.key?('dubs') || serverFlags[event.server.id]["memes"]
