@@ -168,6 +168,8 @@ bot.command :roll do |event, dstring, *args|
       resultArray = []
       while ( temp > 0 )
          roll = 1+rand(faces)
+         # add to result array
+         total += roll
          resultArray << roll
          # explode dice if requested
          if parsedArgs.key?('explode')
@@ -178,12 +180,11 @@ bot.command :roll do |event, dstring, *args|
             max = parsedArgs['explode']['expMax']
             while roll == faces and (max < 0 or ecount < max)
                roll = 1+rand(faces)
+               total += roll
                resultArray << roll
                ecount = ecount + 1
             end
          end
-         # add to result array
-         total += roll
          temp -= 1
       end
       # drop dice if requested
