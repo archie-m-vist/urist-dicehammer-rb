@@ -41,14 +41,18 @@ bot.command :emote do |event, name, *args|
       end
       return
    end
-   
+   # get file
    dir = "./pictures/"+name.to_s+"/"
    count = Dir[dir+"*"].length
    if ( count == 0 )
       return "Error: Unsupported emote."
    end
-   fname = dir + (rand(count)+1).to_s + ".gif"
-   puts fname
+   id = rand(count)+1
+   if args.length > 0 && args[0].to_i > 0 && args[0].to_i <= count
+      id = args[0].to_i
+   end
+   fname = dir + id.to_s + ".gif"
+   # send file
    ifile = File.new(fname,"r")
    event.channel.send_file(ifile)
    nil
