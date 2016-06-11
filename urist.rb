@@ -144,7 +144,7 @@ bot.command :roll do |event, dstring, *args|
    
    # check count/number for message length limiter
    if ( count > 10 or number > 25 )
-      return "Error: "+name+" only supports up to 10 different rolls or 25 dice at present due to Discord message limitations."
+      return "Error: Urist only supports up to 10 different rolls or 25 dice at present due to Discord message limitations."
    end
    # determine bonus
    sign = ""
@@ -169,6 +169,20 @@ bot.command :roll do |event, dstring, *args|
       while ( temp > 0 )
          roll = 1+rand(faces)
          resultArray << roll
+         # explode dice if requested
+         if parsedArgs.key?('explode')
+            if ( faces == 1 )
+               return "Infinity."
+            end
+            ecount = 0
+            max = parsedArgs['explode']['expMax']
+            while roll == faces and (max < 0 or ecount < max)
+               roll = 1+rand(faces)
+               resultArray << roll
+               ecount = ecount + 1
+            end
+         end
+         # add to result array
          total += roll
          temp -= 1
       end

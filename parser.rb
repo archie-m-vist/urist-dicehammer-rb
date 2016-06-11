@@ -25,6 +25,12 @@ def parseRollArgs (args, event)
          end
       elsif ( arg.casecmp("dubs") == 0 )
          parsedArgs['dubs'] = true
+      elsif ( arg.casecmp("explode") == 0 )
+         parsedArgs['explode'] = { 'expMax' => 1 }
+         if index+1 < args.length && is_i(args[index+1])
+            parsedArgs['explode']['expMax'] = to_i(args[index+1])
+            index += 1
+         end
       end
       index += 1
    end
