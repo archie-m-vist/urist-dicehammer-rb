@@ -25,12 +25,23 @@ bot.message(with_text: 'Check Urist') do |event|
 end
 
 bot.command :emote do |event, name, *args|
-   if ( name == "help" )
-      event.respond "Suppoted commands:"
-      event.respond "!emote glassesadjust"
+   if /\./.match(name) or /\//.match(name)
+      if serverFlags[event.server.id]["memes"]
+         event.respond "Nice try."
+      end
       return
    end
-
+   if ( name == "help" )
+      event.respond "Suppoted emotes:"
+      folders = Dir.entries("./pictures")
+      folders.delete(".")
+      folders.delete("..")
+      folders.each do |folder|
+         event.respond "!emote " + folder
+      end
+      return
+   end
+   
    dir = "./pictures/"+name.to_s+"/"
    count = Dir[dir+"*"].length
    if ( count == 0 )

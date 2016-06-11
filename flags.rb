@@ -1,4 +1,7 @@
-def initFlags (bot, serverFlags)
+serverFlags = {}
+
+def initFlags (bot, flags)
+   serverFlags = flags
    bot.servers.keys.each do |server|
       serverFlags[server] = { "memes" => false }
    end
