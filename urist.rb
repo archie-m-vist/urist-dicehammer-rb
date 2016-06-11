@@ -106,7 +106,7 @@ bot.command :request do|event, *args|
       return
    end
    open('requests.out', 'a') { |f|
-      f.puts event.user.name ": " args.join(" ")
+      f.puts event.user.name + ": " + args.join(" ")
    }
 end
 
