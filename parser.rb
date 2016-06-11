@@ -27,7 +27,7 @@ def parseRollArgs (args, event)
          parsedArgs['dubs'] = true
       elsif ( arg.casecmp("explode") == 0 )
          parsedArgs['explode'] = { 'expMax' => 1 }
-         if index+1 < args.length && (args[index+1].is_a? Integer)
+         if index+1 < args.length && (args[index+1].to_i.to_s == args[index+1])
             parsedArgs['explode']['expMax'] = args[index+1].to_i
             index += 1
          end

@@ -173,16 +173,17 @@ bot.command :roll do |event, dstring, *args|
          resultArray << roll
          # explode dice if requested
          if parsedArgs.key?('explode')
-            if ( faces == 1 )
-               return "Infinity."
-            end
             ecount = 0
             max = parsedArgs['explode']['expMax']
+            if ( faces == 1 && max < 0 )
+               event.respond "Infinity."
+               return
+            end
             while roll == faces and (max < 0 or ecount < max)
                roll = 1+rand(faces)
                total += roll
                resultArray << roll
-               ecount = ecount + 1
+               ecount += 1
             end
          end
          temp -= 1
