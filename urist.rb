@@ -100,6 +100,16 @@ bot.command :coinflip do |event, *args|
    totals + output
 end
 
+bot.command :request do|event, *args|
+   if args.length == 0 and args[0].casecmp("help") == 0
+      event.respond "Sends a suggestion for a Urist feature for Archie to ignore, the lazy fuck."
+      return
+   end
+   open('requests.out', 'a') { |f|
+      f.puts args.join(" ")
+   }
+end
+
 bot.command :roll do |event, dstring, *args|
    if dstring.casecmp("help") == 0
       event.respond "Suppoted features:"
