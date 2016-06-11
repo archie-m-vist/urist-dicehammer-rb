@@ -145,7 +145,7 @@ bot.command :roll do |event, dstring, *args|
       if sign == "-"
          bonus = bonus * -1
       elsif sign == "/"
-         bonus = 1/bonus
+         bonus = 1.0/bonus
       end
       output += " with modifier "+sign+$~['bonus']
    end
