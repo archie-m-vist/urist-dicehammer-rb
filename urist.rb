@@ -144,7 +144,7 @@ bot.command :roll do |event, dstring, *args|
       sign = $~['sign']
       if sign == "-"
          bonus = bonus * -1
-      elif sign == "/"
+      elsif sign == "/"
          bonus = 1/bonus
       end
       output += " with modifier "+sign+$~['bonus']
@@ -185,7 +185,7 @@ bot.command :roll do |event, dstring, *args|
       # apply bonus
       if sign == "+" or sign == "-"
          total += bonus
-      elif sign == "*" or sign == "/"
+      elsif sign == "*" or sign == "/"
          total *= bonus
       end
       output += "**" + total.to_s
